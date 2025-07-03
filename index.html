@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warrior's Quest: O Desafio do Dragão Dourado</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Tela Inicial -->
+        <div id="main-menu" class="screen active">
+            <div class="menu-content">
+                <h1 class="game-title">Warrior's Quest</h1>
+                <h2 class="game-subtitle">O Desafio do Dragão Dourado</h2>
+                <p class="game-quote">"A jornada de um herói não é medida apenas pela distância percorrida, mas pelo peso do ouro em sua bolsa e pelas cicatrizes de suas batalhas."</p>
+                
+                <div class="menu-options">
+                    <button class="btn-primary" onclick="showPlayerSetup()">Iniciar Jogo</button>
+                    <button class="btn-secondary" onclick="showRules()">Regras</button>
+                </div>
+            </div>
+            <footer><p>&copy;Warrior's Quest. Todos os direitos reservados , criado por Celso Junior</p></footer>
+        </div>
+
+        <!-- Configuração de Jogadores -->
+        <div id="player-setup" class="screen">
+            <div class="setup-content">
+                <h2>Configuração dos Heróis</h2>
+                <div class="player-count">
+                    <label>Número de Jogadores:</label>
+                    <select id="playerCount" onchange="updatePlayerInputs()">
+                        <option value="2">2 Jogadores</option>
+                        <option value="3">3 Jogadores</option>
+                        <option value="4">4 Jogadores</option>
+                    </select>
+                </div>
+                
+                <div id="player-inputs">
+                    <!-- Inputs de jogadores serão gerados dinamicamente -->
+                </div>
+                
+                <div class="setup-buttons">
+                    <button class="btn-secondary" onclick="showMainMenu()">Voltar</button>
+                    <button class="btn-primary" onclick="startGame()">Começar Aventura</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Regras -->
+        <div id="rules" class="screen">
+            <div class="rules-content">
+                <h2>Regras do Jogo</h2>
+                <div class="rules-text">
+                    <h3>Objetivo</h3>
+                    <p>Ser o herói mais lendário do reino. Para ganhar, você deve:</p>
+                    <ul>
+                        <li>Chegar à Toca do Dragão (casa 60)</li>
+                        <li>Derrotar o Dragão Ancião</li>
+                        <li>Ter mais ouro entre os vencedores</li>
+                    </ul>
+                    
+                    <h3>Como Jogar</h3>
+                    <p>• Role 2 dados para mover seu herói</p>
+                    <p>• Resolva os eventos de cada casa</p>
+                    <p>• Use cartas estrategicamente em combates</p>
+                    <p>• Acumule ouro e sobreviva até o dragão!</p>
+                    
+                    <h3>Tipos de Casa</h3>
+                    <p>🟢 <strong>Planície:</strong> Descanso seguro</p>
+                    <p>💰 <strong>Tesouro:</strong> Encontre ouro (1d6 x 5)</p>
+                    <p>🃏 <strong>Sorte:</strong> Puxe uma carta extra</p>
+                    <p>👹 <strong>Monstro:</strong> Batalha obrigatória</p>
+                    <p>⛺ <strong>Vilarejo:</strong> Cure PV ou compre cartas</p>
+                    <p>❓ <strong>Evento:</strong> Surpresas aleatórias</p>
+                    <p>🐉 <strong>Dragão:</strong> Batalha final!</p>
+                </div>
+                <button class="btn-primary" onclick="showMainMenu()">Voltar</button>
+            </div>
+        </div>
+
+        <!-- Tela Principal do Jogo -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="current-player">
+                    <h3>Turno de: <span id="current-player-name"></span></h3>
+                </div>
+                <div class="game-status">
+                    <span id="round-counter">Rodada 1</span>
+                </div>
+            </div>
+
+            <div class="game-main">
+                <!-- Tabuleiro -->
+                <div class="board-container">
+                    <div id="game-board" class="board">
+                        <!-- Casas do tabuleiro serão geradas dinamicamente -->
+                    </div>
+                </div>
+
+                <!-- Painel do Jogador -->
+                <div class="player-panel">
+                    <div class="player-stats">
+                        <div class="stat">
+                            <span class="stat-label">PV:</span>
+                            <span id="player-hp" class="stat-value">20/20</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Ouro:</span>
+                            <span id="player-gold" class="stat-value">15</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Posição:</span>
+                            <span id="player-position" class="stat-value">0</span>
+                        </div>
+                    </div>
+
+                    <div class="dice-section">
+                        <button id="roll-dice-btn" class="btn-primary" onclick="rollDice()">Rolar Dados</button>
+                        <div id="dice-result" class="dice-result"></div>
+                    </div>
+
+                    <div class="player-hand">
+                        <h4>Suas Cartas</h4>
+                        <div id="hand-cards" class="cards-container">
+                            <!-- Cartas na mão do jogador -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Painel de Ações -->
+            <div class="action-panel">
+                <div id="action-message" class="action-message"></div>
+                <div id="action-buttons" class="action-buttons"></div>
+            </div>
+        </div>
+
+        <!-- Modal de Combate -->
+        <div id="combat-modal" class="modal">
+            <div class="modal-content combat-content">
+                <h3 id="combat-title">Combate!</h3>
+                <div class="combat-area">
+                    <div class="combatant player-combatant">
+                        <h4 id="player-name-combat">Herói</h4>
+                        <div id="player-avatar" class="character-avatar player-avatar">
+                            🛡️
+                        </div>
+                        <div class="hp-bar">
+                            <div id="player-hp-bar" class="hp-fill"></div>
+                            <span id="player-hp-text">20/20</span>
+                        </div>
+                        <div class="deck-info">
+                            <div>Deck: <span id="player-deck-count">13</span></div>
+                            <div>Descarte: <span id="player-discard-count">0</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="vs-indicator">⚔️</div>
+                    
+                    <div class="combatant enemy-combatant">
+                        <h4 id="enemy-name">Monstro</h4>
+                        <div id="enemy-avatar" class="character-avatar enemy-avatar">
+                            👹
+                        </div>
+                        <div class="hp-bar">
+                            <div id="enemy-hp-bar" class="hp-fill"></div>
+                            <span id="enemy-hp-text">10/10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="combat-log" class="combat-log"></div>
+                
+                <div class="combat-actions">
+                    <div id="combat-cards" class="cards-container">
+                        <!-- Cartas disponíveis para combate -->
+                    </div>
+                    <div id="combat-buttons" class="action-buttons">
+                        <!-- Botões de ação do combate -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Eventos -->
+        <div id="event-modal" class="modal">
+            <div class="modal-content">
+                <h3>Evento!</h3>
+                <div id="event-content" class="event-content">
+                    <!-- Conteúdo do evento -->
+                </div>
+                <button class="btn-primary" onclick="closeEventModal()">Continuar</button>
+            </div>
+        </div>
+
+        <!-- Modal de Vitória -->
+        <div id="victory-modal" class="modal">
+            <div class="modal-content victory-content">
+                <h2>🏆 Fim do Jogo! 🏆</h2>
+                <div id="victory-message"></div>
+                <div id="final-scores"></div>
+                <div class="victory-buttons">
+                    <button class="btn-primary" onclick="showMainMenu()">Menu Principal</button>
+                    <button class="btn-secondary" onclick="startGame()">Jogar Novamente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
