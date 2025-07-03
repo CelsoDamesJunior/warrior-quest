@@ -60,7 +60,7 @@ Um jogo de tabuleiro digital baseado em navegador, onde heróis corajosos enfren
 ### 🎲 Mecânicas Especiais
 - **Morte**: Volte ao último vilarejo, perca metade do ouro, restaure 10 PV
 - **Limite de Tentativas**: 3 tentativas contra o dragão por jogador
-- **Cartas na Mão**: Sempre reponha para 5 após combate
+- **Cartas na Mão**: Sempre repoem para 5 após combate
 - **Eventos Aleatórios**: Armadilhas, bênçãos e encontros únicos
 
 ## Arquivos do Jogo
