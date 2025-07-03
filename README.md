@@ -97,6 +97,10 @@ php -S localhost:8000
 ```
 Acesse `http://localhost:8000`
 
+### Método 3: GitHub Pages
+
+Acesse `https://celsodamesjunior.github.io/warrior-quest/`
+
 ## Conversão para Aplicativo Desktop
 
 ### Usando Electron:
